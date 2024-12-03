@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar shadow-sm">
+    <div className="navbar shadow-sm px-6 py-4 w-full lg:w-3/4 mx-auto">
       <div className="flex-1">
         <Link
           to="/"

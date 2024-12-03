@@ -11,9 +11,9 @@ const Home = () => {
       .then((response) => setProducts(response.data))
       .catch((error) => console.error(error));
   }, []);
-
+  console.log(products);
   return (
-    <div className="container mx-auto my-6">
+    <div className="container mx-auto my-6 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-4">
         Available Products
       </h1>

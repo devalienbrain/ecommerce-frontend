@@ -14,7 +14,8 @@ const Login = () => {
         "http://localhost:5000/api/auth/login",
         { email, password }
       );
-      localStorage.setItem("token", data.token);
+      console.log(data);
+      // localStorage.setItem("token", data.token);
       navigate("/");
     } catch (error) {
       console.error(error);
