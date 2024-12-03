@@ -11,11 +11,16 @@ const ProductCard = ({ product }) => {
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{product.name}</h2>
-        <p>Price: ${product.price}</p>
-        <p>Category: {product.category}</p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Add to Cart</button>
+        <h2 className="card-title font-bold">{product.name}</h2>
+        <p className="font-semibold">Price: ${product.price}</p>
+        <p className="font-bold">
+          Category:{" "}
+          <span className="text-green-800 font-bold">{product.category}</span>{" "}
+        </p>
+        <div className="card-actions justify-start">
+          <button className="px-4 py-2 rounded-md font-bold bg-red-600 border border-red-600 text-white hover:bg-red-500 hover:border-red-500">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
