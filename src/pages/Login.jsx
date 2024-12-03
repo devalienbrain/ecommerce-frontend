@@ -26,7 +26,9 @@ const Login = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="card w-96 bg-base-100 shadow-md">
         <form className="card-body" onSubmit={handleLogin}>
-          <h2 className="card-title text-center">Login</h2>
+          <h2 className="card-title text-center font-black text-xl">
+            Login with credentials
+          </h2>
           <input
             type="email"
             placeholder="Email"
@@ -41,7 +43,10 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className="btn w-full font-bold bg-red-600 border border-red-600 text-white hover:bg-red-500 hover:border-red-500"
+          >
             Login
           </button>
         </form>

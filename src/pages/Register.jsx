@@ -25,10 +25,15 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen shadow-xl border border-gray-400">
       <div className="card w-96 bg-base-100 shadow-md">
-        <form className="card-body" onSubmit={handleRegister}>
-          <h2 className="card-title text-center">Register</h2>
+        <form
+          className="card-body text-sm font-semibold"
+          onSubmit={handleRegister}
+        >
+          <h2 className="card-title text-center font-black text-xl">
+            Register a new member
+          </h2>
           <input
             type="email"
             placeholder="Email"
@@ -51,7 +56,10 @@ const Register = () => {
             <option value="user">User</option>
             <option value="vendor">Vendor</option>
           </select>
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className="btn w-full font-bold bg-green-600 border border-green-600 text-white hover:bg-green-500 hover:border-green-500"
+          >
             Register
           </button>
         </form>
