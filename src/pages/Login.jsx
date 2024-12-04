@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useUser } from "../provider/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useUser(); // Use the login method from context
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,10 +23,7 @@ const Login = () => {
       );
       console.log(data);
 
-      // Save token
       const token = data.token;
-      localStorage.setItem("token", token);
-
       // Decode token to get user ID
       const decoded = jwtDecode(token);
 
@@ -37,6 +37,9 @@ const Login = () => {
         }
       );
       console.log("User Details:", userResponse.data);
+
+      // Save user and token using context
+      login(userResponse.data, token);
 
       // Navigate to Dashboard
       navigate("/dashboard");

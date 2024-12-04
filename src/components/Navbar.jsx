@@ -1,31 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useUser } from "../provider/UserContext";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  // Check for user token on component mount
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token); // Decode JWT to get user info
-        setUser(decoded);
-      } catch (error) {
-        console.error("Invalid token:", error);
-        localStorage.removeItem("token"); // Remove invalid token
-      }
-    }
-  }, []);
-
-  // Logout handler
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
-  };
+  const { user, logout } = useUser();
 
   return (
     <div className="navbar shadow-sm px-6 py-4 w-full lg:w-3/4 mx-auto">
@@ -53,7 +31,7 @@ const Navbar = () => {
               <span className="font-medium">{user.email}</span>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={logout}
               className="px-4 py-2 rounded-md border border-red-500 hover:bg-red-500 hover:text-white"
             >
               Logout
