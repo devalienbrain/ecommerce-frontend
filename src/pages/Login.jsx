@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,10 +13,32 @@ const Login = () => {
     try {
       const { data } = await axios.post(
         "http://localhost:5000/api/auth/login",
-        { email, password }
+        {
+          email,
+          password,
+        }
       );
       console.log(data);
-      localStorage.setItem("token", data.token);
+
+      // Save token
+      const token = data.token;
+      localStorage.setItem("token", token);
+
+      // Decode token to get user ID
+      const decoded = jwtDecode(token);
+
+      // Fetch user details
+      const userResponse = await axios.get(
+        `http://localhost:5000/api/users/${decoded.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("User Details:", userResponse.data);
+
+      // Navigate to Dashboard
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
