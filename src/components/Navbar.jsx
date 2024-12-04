@@ -5,11 +5,15 @@ const Navbar = () => {
   return (
     <div className="navbar shadow-sm px-6 py-4 w-full lg:w-3/4 mx-auto">
       <div className="flex-1">
-        <Link
-          to="/"
-          className="text-xl font-extrabold bg-gradient-to-tr bg-clip-text text-transparent from-green-700 via-black to-red-500"
-        >
-          E-Commerce
+        <Link to="/" className="flex items-center gap-1">
+          <img
+            src="https://i.ibb.co.com/wQ61YwM/ecommerce-logo.png          "
+            alt="logo"
+            className="w-9"
+          />
+          <span className="text-xl font-extrabold bg-gradient-to-tr bg-clip-text text-transparent from-green-700 via-black to-red-500">
+            E-Commerce
+          </span>
         </Link>
       </div>
       <div className="flex items-center gap-3 text-sm font-semibold">
