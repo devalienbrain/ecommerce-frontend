@@ -15,8 +15,8 @@ const Login = () => {
         { email, password }
       );
       console.log(data);
-      // localStorage.setItem("token", data.token);
-      navigate("/");
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       alert("Invalid credentials!");
