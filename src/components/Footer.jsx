@@ -2,7 +2,7 @@ import { FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between items-center px-6 py-4 w-full lg:w-3/4 mx-auto shadow-md mt-7">
+    <footer className="flex justify-between items-center px-6 py-4 w-full lg:w-3/4 mx-auto shadow-md ">
       {/* Left Side - All rights reserved text */}
       <div className="text-sm text-gray-600">
         &copy; 2024 All rights reserved.

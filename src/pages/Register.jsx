@@ -60,6 +60,7 @@ const Register = () => {
             >
               <option value="user">User</option>
               <option value="vendor">Vendor</option>
+              {/* <option value="admin">Admin</option> */}
             </select>
             <button
               type="submit"

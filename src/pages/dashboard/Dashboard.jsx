@@ -8,7 +8,7 @@ const Dashboard = () => {
       {/* <Helmet>
         <title>Share Manager | Dashboard</title>
       </Helmet> */}
-      <div className="font-popppins py-4 w-full lg:w-3/4 mx-auto">
+      <div className="font-popppins w-full lg:w-3/4 mx-auto">
         <div className="block lg:flex">
           <div className="min-w-64 shadow-md ">
             <DashboardSidebar />

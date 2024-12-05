@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { UserProvider } from "./provider/UserContext";
+import Profile from "./components/dashboards/Profile";
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* Dashboard route with nested routes */}
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="profile" element={<Profile />} />
+          </Route>
         </Routes>
         <Footer />
       </UserProvider>
