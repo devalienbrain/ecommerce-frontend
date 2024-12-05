@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../../provider/UserContext";
 
-const DashboardSidebar = ({ role }: { role: "admin" | "vendor" | "user" }) => {
+const DashboardSidebar = () => {
+  const { user } = useUser();
   return (
     <div className="h-full bg-white pl-6 py-4">
       <h2 className="text-xl font-bold text-gray-700 mb-4">Dashboard</h2>
@@ -22,7 +24,7 @@ const DashboardSidebar = ({ role }: { role: "admin" | "vendor" | "user" }) => {
             Orders
           </Link>
         </li>
-        {role === "admin" && (
+        {user?.role === "admin" && (
           <>
             <h3 className="text-lg font-semibold text-gray-700 mt-6">
               Admin Links
@@ -53,7 +55,7 @@ const DashboardSidebar = ({ role }: { role: "admin" | "vendor" | "user" }) => {
             </li>
           </>
         )}
-        {role === "vendor" && (
+        {user?.role === "vendor" && (
           <>
             <h3 className="text-lg font-semibold text-gray-700 mt-6">
               Vendor Links
@@ -84,7 +86,7 @@ const DashboardSidebar = ({ role }: { role: "admin" | "vendor" | "user" }) => {
             </li>
           </>
         )}
-        {role === "user" && (
+        {user?.role === "user" && (
           <>
             <h3 className="text-lg font-semibold text-gray-700 mt-6">
               User Links
