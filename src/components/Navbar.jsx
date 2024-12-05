@@ -63,7 +63,7 @@ const Navbar = () => {
                 <p className="font-medium text-gray-700">{user?.email}</p>
                 <p className="text-sm text-gray-600">
                   Role:{" "}
-                  <span className="font-bold text-green-600">{user?.role}</span>{" "}
+                  <span className="font-bold capitalize">{user?.role}</span>{" "}
                 </p>
                 <Link
                   to="/dashboard"

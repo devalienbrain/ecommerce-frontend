@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import { UserProvider } from "./provider/UserContext";
 import Profile from "./components/dashboards/Profile";
 import ManageUsers from "./components/dashboards/ManageUsers";
+import ManageCategories from "./components/dashboards/ManageCategories";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="" element={<Profile />} />
             <Route path="profile" element={<Profile />} />
             <Route path="manage-users" element={<ManageUsers />} />
+            <Route path="manage-categories" element={<ManageCategories />} />
           </Route>
         </Routes>
         <Footer />

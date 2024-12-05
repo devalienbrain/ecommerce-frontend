@@ -88,18 +88,25 @@ const ManageUsers = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id}>
+          {users?.map((user, index) => (
+            <tr key={user?.id}>
               <td className="border p-2">{index + 1}</td>{" "}
               {/* Display serial number */}
               <td className="border p-2">{user.email}</td>
-              <td className="border p-2">{user.role}</td>
+              <td className="border p-2 capitalize">
+                {" "}
+                <strong>{user.role}</strong>{" "}
+              </td>
               <td className="border p-2">
                 {new Date(user.createdAt).toLocaleDateString()}
               </td>
               <td className="border p-2">{user.status}</td>{" "}
               {/* Display user status */}
-              <td className="border p-2 flex justify-center space-x-4">
+              <td
+                className={`border p-2 flex justify-center space-x-4 ${
+                  user?.role === "admin" ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
                 <button
                   className="text-yellow-600 text-sm"
                   onClick={() => handleSuspend(user.id)}
