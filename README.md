@@ -5,6 +5,10 @@
 - **Front-end live URL**: [Live link]()
 - **Backend server code**: [Github repo link](https://github.com/devalienbrain/ecommerce-backend)
 
+## Admin Credentials
+- **Email**: admin@ecommerce-prisma.com
+- **Password**: 123456
+
 ## Tech stack
 - reactjs 
 - tailwindcss 
