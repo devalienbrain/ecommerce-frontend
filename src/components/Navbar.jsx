@@ -67,9 +67,9 @@ const Navbar = () => {
                 </p>
                 <Link
                   to="/dashboard"
-                  className="text-blue-500 hover:underline mt-2 inline-block text-xs font-bold"
+                  className="text-green-600 hover:underline mt-2 inline-block text-sm font-semibold"
                 >
-                  Go to dashboard
+                  Go to Dashboard
                 </Link>
               </div>
             )}
