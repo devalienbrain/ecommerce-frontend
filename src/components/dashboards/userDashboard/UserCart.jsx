@@ -17,7 +17,7 @@ const UserCart = () => {
         );
     }
   }, [userId]);
-
+  console.log(cartItems);
   const handleRemove = (itemId) => {
     axios
       .delete(`http://localhost:5000/api/cart/${itemId}`)
@@ -45,8 +45,8 @@ const UserCart = () => {
               className="border p-4 rounded shadow flex justify-between items-center"
             >
               <div>
-                <h3 className="font-bold">{item?.name}</h3>
-                <p>Price: ${item?.price}</p>
+                <h3 className="font-bold">{item?.product?.name}</h3>
+                <p>Price: ${item?.product?.price}</p>
                 <p>Quantity: {item?.quantity}</p>
               </div>
               <button

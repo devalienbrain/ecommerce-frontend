@@ -38,7 +38,7 @@ const Categories = () => {
       <div>
         <Title title="Categories" />
       </div>
-      <div className="container mx-auto p-4">
+      <div className="py-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {categories.map((category) => (
             <div
