@@ -16,31 +16,28 @@ const VendorShop = () => {
   const [logo, setLogo] = useState("");
   const [description, setDescription] = useState("");
   const userId = user?.id;
-  console.log(userId);
 
   // Fetch shops
   useEffect(() => {
     const fetchShops = async () => {
-        if (!userId) return;
+      if (!userId) return;
 
-        try {
-            const response = await axios.get(`http://localhost:5000/api/shop`, {
-                params: { userId },
-            });
-            console.log("API Response:", response.data);
-            setShops(Array.isArray(response?.data) ? response?.data : []);
-        } catch (error) {
-            console.error("Error fetching shops:", error);
-            setShops([]); // Ensure shops is always an array
-        }
+      try {
+        const response = await axios.get(`http://localhost:5000/api/shop`, {
+          params: { userId },
+        });
+        setShops(Array.isArray(response?.data) ? response?.data : []);
+      } catch (error) {
+        console.error("Error fetching shops:", error);
+        setShops([]); // Ensure shops is always an array
+      }
     };
 
     fetchShops();
-}, [userId]);
+  }, [userId]);
 
-  console.log(shops);
-  // Handle creating or updating a shop
-  const handleSaveShop = async () => {
+  // Handle Create Shop
+  const handleCreateShop = async () => {
     if (!name.trim() || !description.trim()) {
       return alert("Shop name and description cannot be empty");
     }
@@ -48,36 +45,45 @@ const VendorShop = () => {
     const shopData = { name, logo, description, userId };
 
     try {
-      if (selectedShop) {
-        // Update shop
-        const response = await axios.put(
-          `http://localhost:5000/api/shop/${selectedShop.id}`,
-          shopData
-        );
-        setShops((prev) =>
-          prev?.map((shop) =>
-            shop.id === selectedShop.id ? response.data : shop
-          )
-        );
-        alert("Shop updated successfully!");
-      } else {
-        // Create shop
-        const response = await axios.post(
-          "http://localhost:5000/api/shop",
-          shopData
-        );
-        setShops((prev) => [...prev, response.data]);
-        alert("Shop created successfully!");
-      }
-
+      const response = await axios.post(
+        "http://localhost:5000/api/shop",
+        shopData
+      );
+      setShops((prev) => [...prev, response.data]);
+      alert("Shop created successfully!");
       closeModals();
     } catch (error) {
-      console.error("Error saving shop:", error);
-      alert("Failed to save shop. Please try again.");
+      console.error("Error creating shop:", error);
+      alert("Failed to create shop. Please try again.");
     }
   };
 
-  // Handle deleting a shop
+  // Handle Update Shop
+  const handleUpdateShop = async () => {
+    if (!selectedShop) return;
+    if (!name.trim() || !description.trim()) {
+      return alert("Shop name and description cannot be empty");
+    }
+
+    const shopData = { name, logo, description };
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/api/shop/${selectedShop.id}`,
+        shopData
+      );
+      setShops((prev) =>
+        prev.map((shop) => (shop.id === selectedShop.id ? response.data : shop))
+      );
+      alert("Shop updated successfully!");
+      closeModals();
+    } catch (error) {
+      console.error("Error updating shop:", error);
+      alert("Failed to update shop. Please try again.");
+    }
+  };
+
+  // Handle Delete Shop
   const handleDeleteShop = async () => {
     try {
       await axios.delete(`http://localhost:5000/api/shop/${selectedShop.id}`);
@@ -90,7 +96,7 @@ const VendorShop = () => {
     }
   };
 
-  // Close all modals  g
+  // Close all modals
   const closeModals = () => {
     setIsCreateModalOpen(false);
     setIsUpdateModalOpen(false);
@@ -165,13 +171,11 @@ const VendorShop = () => {
         </tbody>
       </table>
 
-      {/* Create/Update Modal */}
-      {(isCreateModalOpen || isUpdateModalOpen) && (
+      {/* Create Modal */}
+      {isCreateModalOpen && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded shadow-md">
-            <h3 className="text-xl font-semibold mb-4">
-              {selectedShop ? "Update Shop" : "Create Shop"}
-            </h3>
+            <h3 className="text-xl font-semibold mb-4">Create A New Shop</h3>
             <div className="mb-4">
               <label className="block font-semibold mb-1">Shop Name</label>
               <input
@@ -204,10 +208,62 @@ const VendorShop = () => {
             </div>
             <div className="flex space-x-4">
               <button
-                onClick={handleSaveShop}
+                onClick={handleCreateShop}
                 className="bg-green-500 text-white px-4 py-2 rounded"
               >
-                Save
+                Create
+              </button>
+              <button
+                onClick={closeModals}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Update Modal */}
+      {isUpdateModalOpen && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-md">
+            <h3 className="text-xl font-semibold mb-4">Update Shop</h3>
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Shop Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="border p-2 w-full"
+                placeholder="Enter shop name"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Shop Logo URL</label>
+              <input
+                type="text"
+                value={logo}
+                onChange={(e) => setLogo(e.target.value)}
+                className="border p-2 w-full"
+                placeholder="Enter logo URL"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block font-semibold mb-1">Description</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="border p-2 w-full"
+                placeholder="Enter shop description"
+                rows="4"
+              ></textarea>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleUpdateShop}
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+              >
+                Update
               </button>
               <button
                 onClick={closeModals}
