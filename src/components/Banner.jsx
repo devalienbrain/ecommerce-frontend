@@ -2,9 +2,9 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <div className="bg-white w-full flex flex-col md:flex-row items-center justify-between px-6 py-10">
+    <div className="bg-white w-full flex flex-col md:flex-row items-center justify-between py-10">
       {/* Left Text Section */}
-      <div className="md:w-1/2 text-center md:text-left mb-6 md:mb-0">
+      <div className="md:w-1/2 text-center md:text-left ">
         <h1 className="text-red-600 text-3xl md:text-5xl font-black leading-tight">
           The E-Commerce Application
         </h1>

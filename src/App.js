@@ -17,6 +17,7 @@ import UserCart from "./components/dashboards/userDashboard/UserCart";
 import UserReviews from "./components/dashboards/userDashboard/UserReviews";
 import RecentlyViewed from "./components/dashboards/userDashboard/RecentlyViewed";
 import ProductDetails from "./components/ProductDetails";
+import AllProductsCategoryFiltered from "./pages/AllProductsCategoryFiltered";
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/products/:categoryId"
+            element={<AllProductsCategoryFiltered />}
+          />
 
           <Route path="/product/:productId" element={<ProductDetails />} />
           {/* Dashboard route with nested routes */}

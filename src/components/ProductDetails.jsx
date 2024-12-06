@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../provider/UserContext";
-import { IoArrowBackCircleOutline } from "react-icons/io5"; // React Icon for back button
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { FaExclamationCircle } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 
 const ProductDetails = () => {
   const { productId } = useParams(); // Get product ID from URL
@@ -15,13 +17,15 @@ const ProductDetails = () => {
   const [review, setReview] = useState("");
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [modalMessage, setModalMessage] = useState(""); // Modal message
 
   // Fetch product details when the component mounts
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/products/${productId}`)
       .then((response) => {
-        setProduct(response.data);
+        setProduct(response?.data);
       })
       .catch((error) => {
         console.error("Error fetching product:", error);
@@ -31,7 +35,7 @@ const ProductDetails = () => {
       // Fetch cart items for the user
       axios
         .get(`http://localhost:5000/api/cart?userId=${userId}`)
-        .then((response) => setCartItems(response.data))
+        .then((response) => setCartItems(response?.data))
         .catch((error) => console.error("Error fetching cart items:", error));
     }
   }, [productId, userId]);
@@ -39,7 +43,8 @@ const ProductDetails = () => {
   // Handle adding to cart
   const handleAddToCart = () => {
     if (!userId) {
-      alert("Please log in to add items to your cart.");
+      setModalMessage("Please log in to add items to your cart.");
+      setIsModalOpen(true);
       return;
     }
 
@@ -47,17 +52,26 @@ const ProductDetails = () => {
     axios
       .post("http://localhost:5000/api/cart", {
         userId,
-        productId: product.id,
+        productId: product?.id,
         quantity: 1,
       })
-      .then((response) => setCartItems([...cartItems, response.data]))
-      .catch((error) => console.error("Error adding to cart:", error));
+      .then((response) => {
+        setCartItems([...cartItems, response?.data]);
+        setModalMessage("Product added to cart successfully!");
+        setIsModalOpen(true);
+      })
+      .catch((error) => {
+        setModalMessage("Error adding product to cart. Please try again.");
+        setIsModalOpen(true);
+        console.error("Error adding to cart:", error);
+      });
   };
 
   // Handle adding review
   const handleAddReview = () => {
     if (!userId) {
-      alert("Please log in to leave a review.");
+      setModalMessage("Please log in to leave a review.");
+      setIsModalOpen(true);
       return;
     }
 
@@ -65,23 +79,26 @@ const ProductDetails = () => {
     axios
       .post("http://localhost:5000/api/reviews", {
         userId,
-        productId: product.id,
+        productId: product?.id,
         rating,
         comment: review,
       })
       .then(() => {
         setIsReviewSubmitted(true);
+        setModalMessage("Review submitted successfully!");
+        setIsModalOpen(true);
       })
-      .catch((error) => console.error("Error adding review:", error));
+      .catch((error) => {
+        setModalMessage("Error submitting review. Please try again.");
+        setIsModalOpen(true);
+        console.error("Error adding review:", error);
+      });
   };
 
-  if (!product) {
-    return (
-      <div className="container mx-auto py-6">
-        <p className="text-red-600">Product not found</p>
-      </div>
-    );
-  }
+  // Close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="px-4 py-6 w-full lg:w-3/4 mx-auto my-6 min-h-screen">
@@ -97,17 +114,19 @@ const ProductDetails = () => {
 
       <div className="mt-6 flex flex-col lg:flex-row justify-between items-center">
         <img
-          src={product.image}
-          alt={product.name}
+          src={product?.image}
+          alt={product?.name}
           className="w-full lg:w-1/2 h-64 lg:h-96 object-cover rounded-lg shadow-lg"
         />
         <div className="ml-0 lg:ml-6 mt-4 lg:mt-0 w-full lg:w-1/2">
-          <h1 className="text-3xl lg:text-4xl font-semibold">{product.name}</h1>
+          <h1 className="text-3xl lg:text-4xl font-semibold">
+            {product?.name}
+          </h1>
           <p className="text-lg lg:text-xl text-gray-700 mt-4">
-            {product.description}
+            {product?.description}
           </p>
           <p className="text-2xl lg:text-3xl font-semibold mt-4 text-gray-800">
-            ${product.price}
+            ${product?.price}
           </p>
 
           <div className="mt-6 flex justify-start">
@@ -154,6 +173,22 @@ const ProductDetails = () => {
           <p className="text-green-500 mt-2">Review submitted successfully!</p>
         )}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-md relative">
+            <MdClose
+              onClick={closeModal}
+              className="absolute top-1 right-1 text-xl  cursor-pointer"
+            />
+            <div className="flex items-center mb-4">
+              <FaExclamationCircle className="mr-2 text-red-600" size={24} />
+              <p className="text-lg">{modalMessage}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
