@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
@@ -15,7 +16,16 @@ export const UserProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setUser(decoded);
+
+        // Fetch additional user details if required
+        axios
+          .get(`http://localhost:5000/api/users/${decoded.id}`)
+          .then((response) => setUser(response.data)) // Update user state with full details
+          .catch((error) => {
+            console.error("Error fetching user details:", error);
+            localStorage.removeItem("token");
+            setUser(null);
+          });
       } catch (error) {
         console.error("Invalid token:", error);
         localStorage.removeItem("token");
@@ -25,14 +35,14 @@ export const UserProvider = ({ children }) => {
 
   const login = (userData, token) => {
     localStorage.setItem("token", token);
-    setUser(userData);
+    setUser(userData); // UserData must include all necessary fields
     navigate("/dashboard");
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    navigate("/"); // Redirect to homepage after logout
+    navigate("/");
   };
 
   return (

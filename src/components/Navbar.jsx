@@ -8,6 +8,9 @@ const Navbar = () => {
   const [showDetails, setShowDetails] = useState(false);
   const detailsRef = useRef(null);
 
+  const adminAvatar = "https://i.ibb.co/qjQ0dt1/manager.png";
+  const userAvatar = "https://i.ibb.co/VvKP7TQ/user.png";
+
   // Close details when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -23,7 +26,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar shadow-sm px-6 py-4 w-full lg:w-3/4 mx-auto">
+    <div className="navbar shadow-sm px-6 py-4 w-full lg:w-3/4 mx-auto bg-white">
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-1">
           <img
@@ -42,16 +45,15 @@ const Navbar = () => {
             {/* User Avatar */}
             <div
               className="flex items-center gap-2 cursor-pointer"
-              onClick={() => setShowDetails(true)} // Show details on click
+              onClick={() => setShowDetails((prev) => !prev)}
+              aria-expanded={showDetails}
+              aria-label="User menu"
             >
               <img
-                src={
-                  user?.role === "Admin"
-                    ? "https://i.ibb.co/qjQ0dt1/manager.png"
-                    : "https://i.ibb.co/VvKP7TQ/user.png"
-                }
+                src={user?.role === "Admin" ? adminAvatar : userAvatar}
                 alt="User Avatar"
                 className="w-9 h-9 rounded-full"
+                onError={(e) => (e.target.src = userAvatar)}
               />
             </div>
 
@@ -59,17 +61,19 @@ const Navbar = () => {
             {showDetails && (
               <div
                 ref={detailsRef}
-                className="absolute top-12 right-0 bg-white shadow-lg border rounded-lg p-3 text-center z-10 w-52"
+                className="absolute top-12 right-0 bg-white shadow-lg border rounded-lg p-3 text-center z-10 w-52 transform transition-transform duration-200 ease-in-out"
               >
-                <p className="font-medium text-gray-700">{user?.email}</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-xs text-gray-700 ">
+                  {user?.email}
+                </p>
+                <p className="text-sm text-gray-600 ">
                   Role:{" "}
-                  <span className="font-bold capitalize">{user?.role}</span>{" "}
+                  <span className="font-bold capitalize">{user?.role}</span>
                 </p>
                 <div className="flex justify-center items-center gap-1">
                   <Link
                     to="/dashboard"
-                    className="hover:underline inline-block text-sm font-semibold"
+                    className="hover:underline inline-block text-sm font-semibold text-blue-600 "
                   >
                     Go to Dashboard
                   </Link>
@@ -80,7 +84,9 @@ const Navbar = () => {
 
             {/* Logout Button */}
             <button
-              onClick={logout}
+              onClick={() =>
+                window.confirm("Are you sure you want to logout?") && logout()
+              }
               className="px-4 py-2 rounded-3xl border border-red-600 hover:border-red-700 bg-red-600 hover:bg-red-700 text-white"
             >
               Logout
