@@ -13,7 +13,7 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
     axios
       .post("http://localhost:5000/api/reviews", {
         userId,
-        productId: product.id,
+        productId: product?.id,
         rating,
         comment: review,
       })
@@ -25,23 +25,23 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
 
   const handleViewDetails = () => {
     // Redirect to product detail page, or implement product detail modal
-    console.log(`Viewing details for product ${product.name}`);
+    console.log(`Viewing details for product ${product?.name}`);
   };
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
       <img
-        src={product.image || "default-image.jpg"}
-        alt={product.name}
+        src={product?.image || "default-image.jpg"}
+        alt={product?.name}
         className="w-full h-48 object-cover rounded-md"
       />
-      <h2 className="text-xl font-bold mt-2">{product.name}</h2>
-      <p className="text-lg text-gray-700">Price: ${product.price}</p>
+      <h2 className="text-xl font-bold mt-2">{product?.name}</h2>
+      <p className="text-lg text-gray-700">Price: ${product?.price}</p>
       <div className="flex items-center mt-2">
         <button
           onClick={() => {
-            onAddToCart(product.id);
-            onAddRecentlyViewed(product.id);
+            onAddToCart(product?.id);
+            onAddRecentlyViewed(product?.id);
           }}
           className="bg-blue-500 text-white py-2 px-4 rounded-md"
         >

@@ -8,7 +8,7 @@ const UserReviews = () => {
   const userId = user?.id;
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/reviews?userId=${userId}`) // Pass userId in query
+      .get(`http://localhost:5000/api/reviews?userId=${userId}`)
       .then((response) => setReviews(response.data))
       .catch((error) => console.error("Error fetching reviews:", error));
   }, [userId]);

@@ -14,19 +14,19 @@ const Home = () => {
     // Fetch all products
     axios
       .get("http://localhost:5000/api/products")
-      .then((response) => setProducts(response.data))
+      .then((response) => setProducts(response?.data))
       .catch((error) => console.error(error));
 
     // Fetch cart items for the user
     axios
       .get(`http://localhost:5000/api/cart?userId=${userId}`)
-      .then((response) => setCartItems(response.data))
+      .then((response) => setCartItems(response?.data))
       .catch((error) => console.error(error));
 
     // Fetch recently viewed products
     axios
       .get(`http://localhost:5000/api/recently-viewed?userId=${userId}`)
-      .then((response) => setRecentlyViewed(response.data))
+      .then((response) => setRecentlyViewed(response?.data))
       .catch((error) => console.error(error));
   }, [userId]);
 
@@ -46,7 +46,7 @@ const Home = () => {
   const handleAddRecentlyViewed = (productId) => {
     axios
       .post("http://localhost:5000/api/recently-viewed", { userId, productId })
-      .then((response) => setRecentlyViewed([...recentlyViewed, response.data]))
+      .then((response) => setRecentlyViewed([...recentlyViewed, response?.data]))
       .catch((error) => console.error(error));
   };
 
@@ -61,9 +61,9 @@ const Home = () => {
       <hr className="mb-7" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((product) => (
+        {products?.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product?.id}
             product={product}
             onAddToCart={handleAddToCart}
             onAddRecentlyViewed={handleAddRecentlyViewed}
