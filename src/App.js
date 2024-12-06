@@ -16,6 +16,7 @@ import Orders from "./components/Orders";
 import UserCart from "./components/dashboards/userDashboard/UserCart";
 import UserReviews from "./components/dashboards/userDashboard/UserReviews";
 import RecentlyViewed from "./components/dashboards/userDashboard/RecentlyViewed";
+import ProductDetails from "./components/ProductDetails";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
+          <Route path="/product/:productId" element={<ProductDetails />} />
           {/* Dashboard route with nested routes */}
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="" element={<Profile />} />

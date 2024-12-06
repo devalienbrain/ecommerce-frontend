@@ -1,87 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useUser } from "../provider/UserContext";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
-  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
-  const { user } = useUser();
-  const userId = user?.id;
-
-  const handleAddReview = () => {
-    axios
-      .post("http://localhost:5000/api/reviews", {
-        userId,
-        productId: product?.id,
-        rating,
-        comment: review,
-      })
-      .then((response) => {
-        setIsReviewSubmitted(true);
-      })
-      .catch((error) => console.error("Error adding review", error));
-  };
-
-  const handleViewDetails = () => {
-    // Redirect to product detail page, or implement product detail modal
-    console.log(`Viewing details for product ${product?.name}`);
+const ProductCard = ({ product, onAddRecentlyViewed }) => {
+  const handleAddRecentlyViewed = () => {
+    onAddRecentlyViewed(product.id);
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-all duration-300">
       <img
-        src={product?.image || "default-image.jpg"}
-        alt={product?.name}
-        className="w-full h-48 object-cover rounded-md"
+        src={product.image}
+        alt={product.name}
+        className="w-full h-48 object-cover rounded-md mb-4"
       />
-      <h2 className="text-xl font-bold mt-2">{product?.name}</h2>
-      <p className="text-lg text-gray-700">Price: ${product?.price}</p>
-      <div className="flex items-center mt-2">
-        <button
-          onClick={() => {
-            onAddToCart(product?.id);
-            onAddRecentlyViewed(product?.id);
-          }}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-        >
-          Add to Cart
-        </button>
-        <button onClick={handleViewDetails} className="ml-3 text-blue-500">
-          View Details
-        </button>
-      </div>
+      <h3 className="text-xl font-semibold text-gray-900">{product.name}</h3>
+      <p className="text-gray-600">{product.description}</p>
+      <p className="text-lg font-bold text-gray-800 mt-2">${product.price}</p>
 
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold">Leave a Review:</h3>
-        <div>
-          <label className="block">Rating (1-5):</label>
-          <input
-            type="number"
-            min="1"
-            max="5"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            className="border px-2 py-1 rounded-md"
-          />
-        </div>
-        <div>
-          <label className="block mt-2">Review:</label>
-          <textarea
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            className="border px-2 py-1 rounded-md w-full"
-          />
-        </div>
-        <button
-          onClick={handleAddReview}
-          className="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-3xl mt-3"
+      <div className="mt-4 flex justify-between items-center">
+        <Link
+          to={`/product/${product.id}`}
+          className="text-blue-600 hover:underline"
+          onClick={handleAddRecentlyViewed} // Add to recently viewed on click
         >
-          Submit Review
-        </button>
-        {isReviewSubmitted && (
-          <p className="text-green-500 mt-2">Review submitted successfully!</p>
-        )}
+          View Details
+        </Link>
       </div>
     </div>
   );
