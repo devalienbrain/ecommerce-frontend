@@ -5,7 +5,7 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
-  const [userId, setUserId] = useState(1); // Placeholder for logged-in user ID
+  const [userId, setUserId] = useState(0); // Placeholder for logged-in user ID
 
   const handleAddReview = () => {
     axios
