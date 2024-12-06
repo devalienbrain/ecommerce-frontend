@@ -12,6 +12,10 @@ import ManageUsers from "./components/dashboards/ManageUsers";
 import ManageCategories from "./components/dashboards/ManageCategories";
 import AddProduct from "./components/dashboards/AddProduct";
 import VendorShop from "./components/dashboards/VendorShop";
+import Orders from "./components/Orders";
+import UserCart from "./components/dashboards/userDashboard/UserCart";
+import UserReviews from "./components/dashboards/userDashboard/UserReviews";
+import RecentlyViewed from "./components/dashboards/userDashboard/RecentlyViewed";
 
 function App() {
   return (
@@ -31,6 +35,10 @@ function App() {
             <Route path="manage-categories" element={<ManageCategories />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="my-shop" element={<VendorShop />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="cart" element={<UserCart />} />
+            <Route path="reviews" element={<UserReviews />} />
+            <Route path="recent-products" element={<RecentlyViewed />} />
           </Route>
         </Routes>
         <Footer />
