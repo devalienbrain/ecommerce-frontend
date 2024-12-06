@@ -1,27 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+  const [userId, setUserId] = useState(1); // Placeholder for logged-in user ID
+
+  const handleAddReview = () => {
+    axios
+      .post("http://localhost:5000/api/reviews", {
+        userId,
+        productId: product.id,
+        rating,
+        comment: review,
+      })
+      .then((response) => {
+        setIsReviewSubmitted(true);
+      })
+      .catch((error) => console.error("Error adding review", error));
+  };
+
+  const handleViewDetails = () => {
+    // Redirect to product detail page, or implement product detail modal
+    console.log(`Viewing details for product ${product.name}`);
+  };
+
   return (
-    <div className="card bg-base-50 shadow-sm rounded-sm border">
-      <figure>
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-48 w-full object-cover"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title font-bold">{product.name}</h2>
-        <p className="font-semibold">Price: ${product.price}</p>
-        <p className="font-bold">
-          Category:{" "}
-          <span className="text-green-800 font-bold">{product.category}</span>{" "}
-        </p>
-        <div className="card-actions justify-start">
-          <button className="px-4 py-2 rounded-md font-bold bg-red-600 border border-red-600 text-white hover:bg-red-500 hover:border-red-500">
-            Add to Cart
-          </button>
+    <div className="bg-white shadow-md rounded-lg p-4">
+      <img
+        src={product.image || "default-image.jpg"}
+        alt={product.name}
+        className="w-full h-48 object-cover rounded-md"
+      />
+      <h2 className="text-xl font-bold mt-2">{product.name}</h2>
+      <p className="text-lg text-gray-700">Price: ${product.price}</p>
+      <div className="flex items-center mt-2">
+        <button
+          onClick={() => {
+            onAddToCart(product.id);
+            onAddRecentlyViewed(product.id);
+          }}
+          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        >
+          Add to Cart
+        </button>
+        <button
+          onClick={handleViewDetails}
+          className="ml-3 text-blue-500"
+        >
+          View Details
+        </button>
+      </div>
+
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">Leave a Review:</h3>
+        <div>
+          <label className="block">Rating (1-5):</label>
+          <input
+            type="number"
+            min="1"
+            max="5"
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+            className="border px-2 py-1 rounded-md"
+          />
         </div>
+        <div>
+          <label className="block mt-2">Review:</label>
+          <textarea
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            className="border px-2 py-1 rounded-md w-full"
+          />
+        </div>
+        <button
+          onClick={handleAddReview}
+          className="bg-green-500 text-white py-2 px-4 rounded-md mt-3"
+        >
+          Submit Review
+        </button>
+        {isReviewSubmitted && <p className="text-green-500 mt-2">Review submitted successfully!</p>}
       </div>
     </div>
   );

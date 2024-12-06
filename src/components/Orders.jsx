@@ -6,7 +6,7 @@ const Orders = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/orders") // Replace with your API endpoint
+      .get("http://localhost:5000/api/user-features/orders") 
       .then((response) => setOrders(response.data))
       .catch((error) => console.error("Error fetching orders:", error));
   }, []);
