@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useUser } from "../../../provider/UserContext";
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const { user } = useUser();
+  const userId = user?.id;
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/cart") // Replace with your API endpoint
-      .then((response) => setCartItems(response.data))
+      .get(`http://localhost:5000/api/cart?userId=${userId}`)
+      .then((response) => setCartItems(response?.data))
       .catch((error) => console.error("Error fetching cart items:", error));
   }, []);
 
   const handleRemove = (itemId) => {
     axios
-      .delete(`http://localhost:5000/api/cart/${itemId}`) // Replace with your API endpoint
+      .delete(`http://localhost:5000/api/cart/${itemId}`)
       .then(() => {
         setCartItems((prevItems) =>
-          prevItems.filter((item) => item.id !== itemId)
+          prevItems.filter((item) => item?.id !== itemId)
         );
       })
       .catch((error) => console.error("Error removing item:", error));
@@ -29,18 +32,18 @@ const UserCart = () => {
       </h1>
       <hr className="mb-7" />
       <div className="grid grid-cols-1 gap-4">
-        {cartItems.map((item) => (
+        {cartItems?.map((item) => (
           <div
-            key={item.id}
+            key={item?.id}
             className="border p-4 rounded shadow flex justify-between items-center"
           >
             <div>
-              <h3 className="font-bold">{item.name}</h3>
-              <p>Price: ${item.price}</p>
-              <p>Quantity: {item.quantity}</p>
+              <h3 className="font-bold">{item?.name}</h3>
+              <p>Price: ${item?.price}</p>
+              <p>Quantity: {item?.quantity}</p>
             </div>
             <button
-              onClick={() => handleRemove(item.id)}
+              onClick={() => handleRemove(item?.id)}
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               Remove

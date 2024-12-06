@@ -4,7 +4,7 @@ import { useUser } from "../../../provider/UserContext";
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
-  const user = useUser();
+  const { user } = useUser();
   const userId = user?.id;
   useEffect(() => {
     axios
@@ -20,11 +20,11 @@ const UserReviews = () => {
       </h1>
       <hr className="mb-7" />
       <div className="grid grid-cols-1 gap-4">
-        {reviews.map((review) => (
-          <div key={review.id} className="border p-4 rounded shadow">
-            <h3 className="font-bold">{review.product.name}</h3>
-            <p>Rating: {review.rating}/5</p>
-            <p>{review.comment}</p>
+        {reviews?.map((review) => (
+          <div key={review?.id} className="border p-4 rounded shadow">
+            <h3 className="font-bold">{review?.product?.name}</h3>
+            <p>Rating: {review?.rating}/5</p>
+            <p>{review?.comment}</p>
           </div>
         ))}
       </div>

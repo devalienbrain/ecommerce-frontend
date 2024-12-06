@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useUser } from "../provider/UserContext";
 
 const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
-  const [userId, setUserId] = useState(0); // Placeholder for logged-in user ID
+  const { user } = useUser();
+  const userId = user?.id;
 
   const handleAddReview = () => {
     axios
@@ -45,10 +47,7 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
         >
           Add to Cart
         </button>
-        <button
-          onClick={handleViewDetails}
-          className="ml-3 text-blue-500"
-        >
+        <button onClick={handleViewDetails} className="ml-3 text-blue-500">
           View Details
         </button>
       </div>
@@ -80,7 +79,9 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
         >
           Submit Review
         </button>
-        {isReviewSubmitted && <p className="text-green-500 mt-2">Review submitted successfully!</p>}
+        {isReviewSubmitted && (
+          <p className="text-green-500 mt-2">Review submitted successfully!</p>
+        )}
       </div>
     </div>
   );

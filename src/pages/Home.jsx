@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Banner from "../components/Banner";
+import { useUser } from "../provider/UserContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
-  const [userId, setUserId] = useState(1); // Placeholder for logged-in user ID, adjust according to your authentication system
-
+  const { user } = useUser();
+  const userId = user?.id;
   useEffect(() => {
     // Fetch all products
     axios
