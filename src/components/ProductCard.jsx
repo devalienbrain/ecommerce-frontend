@@ -43,7 +43,7 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
             onAddToCart(product?.id);
             onAddRecentlyViewed(product?.id);
           }}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
         >
           Add to Cart
         </button>
@@ -75,7 +75,7 @@ const ProductCard = ({ product, onAddToCart, onAddRecentlyViewed }) => {
         </div>
         <button
           onClick={handleAddReview}
-          className="bg-green-500 text-white py-2 px-4 rounded-md mt-3"
+          className="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-3xl mt-3"
         >
           Submit Review
         </button>

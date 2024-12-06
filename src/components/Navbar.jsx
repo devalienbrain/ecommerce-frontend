@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../provider/UserContext";
+import { CiLocationArrow1 } from "react-icons/ci";
 
 const Navbar = () => {
   const { user, logout } = useUser();
@@ -65,19 +66,22 @@ const Navbar = () => {
                   Role:{" "}
                   <span className="font-bold capitalize">{user?.role}</span>{" "}
                 </p>
-                <Link
-                  to="/dashboard"
-                  className="text-green-600 hover:underline mt-2 inline-block text-sm font-semibold"
-                >
-                  Go to Dashboard
-                </Link>
+                <div className="flex justify-center items-center gap-1">
+                  <Link
+                    to="/dashboard"
+                    className="hover:underline inline-block text-sm font-semibold"
+                  >
+                    Go to Dashboard
+                  </Link>
+                  <CiLocationArrow1 />
+                </div>
               </div>
             )}
 
             {/* Logout Button */}
             <button
               onClick={logout}
-              className="px-4 py-2 rounded-2xl border border-red-600 hover:border-red-700 bg-red-600 hover:bg-red-700 text-white"
+              className="px-4 py-2 rounded-3xl border border-red-600 hover:border-red-700 bg-red-600 hover:bg-red-700 text-white"
             >
               Logout
             </button>
