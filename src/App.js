@@ -19,6 +19,9 @@ import RecentlyViewed from "./components/dashboards/userDashboard/RecentlyViewed
 import ProductDetails from "./components/ProductDetails";
 import AllProductsCategoryFiltered from "./pages/AllProductsCategoryFiltered";
 import Checkout from "./pages/payment/Checkout";
+import PaymentSuccessfull from "./pages/payment/PaymentSuccessfull";
+import PaymentFailed from "./pages/payment/paymentFailed";
+import PaymentCancelled from "./pages/payment/PaymentCancelled";
 
 function App() {
   return (
@@ -48,6 +51,15 @@ function App() {
             <Route path="checkout" element={<Checkout />} />
             <Route path="reviews" element={<UserReviews />} />
             <Route path="recent-products" element={<RecentlyViewed />} />
+            <Route
+              path="payment/success/:tranId"
+              element={<PaymentSuccessfull />}
+            />
+            <Route path="payment/fail/:tranId" element={<PaymentFailed />} />
+            <Route
+              path="payment/cancel/:tranId"
+              element={<PaymentCancelled />}
+            />
           </Route>
         </Routes>
         <Footer />
