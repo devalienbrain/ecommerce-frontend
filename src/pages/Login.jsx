@@ -45,7 +45,8 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
-      setErrorMessage("Invalid credentials! Please try again.");
+      // setErrorMessage("Invalid credentials! Please try again.");
+      setErrorMessage(error?.message);
     }
   };
 

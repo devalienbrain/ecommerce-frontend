@@ -70,7 +70,7 @@ const UserCart = () => {
         >
           <Link
             to="/dashboard/checkout"
-            state={{ totalPrice }}
+            state={{ totalPrice, cartItems }}
             className="flex items-center"
           >
             <FiShoppingCart className="mr-2 text-xl" />

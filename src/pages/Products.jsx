@@ -131,7 +131,7 @@ const Products = () => {
             />
           ))
         ) : (
-          <div>No products found</div>
+          <div className="text-red-600"> No products found</div>
         )}
       </div>
     </>

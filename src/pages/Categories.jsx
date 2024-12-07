@@ -40,15 +40,19 @@ const Categories = () => {
       </div>
       <div className="py-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              onClick={() => handleCategoryClick(category.id, category.name)}
-              className="p-4 border rounded shadow-md cursor-pointer hover:bg-blue-100"
-            >
-              {category.name}
-            </div>
-          ))}
+          {categories?.length > 0 ? (
+            categories?.map((category) => (
+              <div
+                key={category.id}
+                onClick={() => handleCategoryClick(category.id, category.name)}
+                className="p-4 border rounded shadow-md cursor-pointer hover:bg-blue-100"
+              >
+                {category.name}
+              </div>
+            ))
+          ) : (
+            <div className="text-red-600">No categories found</div>
+          )}
         </div>
       </div>
     </>
