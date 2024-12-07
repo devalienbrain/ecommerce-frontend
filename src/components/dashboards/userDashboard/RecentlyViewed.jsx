@@ -37,7 +37,9 @@ const RecentlyViewed = () => {
             >
               <h3 className="font-bold">{product?.product?.name}</h3>
               <p>Price: ${product?.product?.price}</p>
-              <p>Viewed At: {product?.viewedAt}</p>
+              <p className="text-xs font-semibold">
+                Viewed At: <strong>{product?.viewedAt}</strong>
+              </p>
             </div>
           ))}
         </div>

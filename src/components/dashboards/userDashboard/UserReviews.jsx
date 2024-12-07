@@ -23,8 +23,12 @@ const UserReviews = () => {
         {reviews?.map((review) => (
           <div key={review?.id} className="border p-4 rounded shadow">
             <h3 className="font-bold">{review?.product?.name}</h3>
-            <p>Rating: {review?.rating}/5</p>
-            <p>{review?.comment}</p>
+            <p>
+              Rating: <strong>{review?.rating}/5</strong>{" "}
+            </p>
+            <p>
+              Comment: <strong>{review?.comment}</strong>{" "}
+            </p>
           </div>
         ))}
       </div>
