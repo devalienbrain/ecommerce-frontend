@@ -29,7 +29,7 @@ const RecentlyViewed = () => {
           You haven't viewed any products recently.
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
+        <div className="grid grid-cols-1  gap-4">
           {recentProducts?.map((product) => (
             <div
               key={product?.id}
