@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useUser } from "../../../provider/UserContext";
 import { FiShoppingCart } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -67,8 +68,14 @@ const UserCart = () => {
           aria-label="Proceed to checkout"
           disabled={totalPrice === 0}
         >
-          <FiShoppingCart className="mr-2 text-xl" />
-          Checkout
+          <Link
+            to="/dashboard/checkout"
+            state={{ totalPrice }}
+            className="flex items-center"
+          >
+            <FiShoppingCart className="mr-2 text-xl" />
+            Checkout
+          </Link>
         </button>
       </div>
       <div className="text-lg font-semibold mb-7">

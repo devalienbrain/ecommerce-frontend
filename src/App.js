@@ -18,6 +18,7 @@ import UserReviews from "./components/dashboards/userDashboard/UserReviews";
 import RecentlyViewed from "./components/dashboards/userDashboard/RecentlyViewed";
 import ProductDetails from "./components/ProductDetails";
 import AllProductsCategoryFiltered from "./pages/AllProductsCategoryFiltered";
+import Checkout from "./pages/payment/Checkout";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="my-shop" element={<VendorShop />} />
             <Route path="orders" element={<Orders />} />
             <Route path="cart" element={<UserCart />} />
+            <Route path="checkout" element={<Checkout />} />
             <Route path="reviews" element={<UserReviews />} />
             <Route path="recent-products" element={<RecentlyViewed />} />
           </Route>
