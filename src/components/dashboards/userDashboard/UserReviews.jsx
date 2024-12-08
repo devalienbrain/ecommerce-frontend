@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useUser } from "../../../provider/UserContext";
+import useAxios from "../../../hooks/useAxios";
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
   const { user } = useUser();
   const userId = user?.id;
+  const axiosInstance = useAxios();
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/reviews?userId=${userId}`)
+    axiosInstance
+      .get(`/api/reviews?userId=${userId}`)
       .then((response) => setReviews(response.data))
       .catch((error) => console.error("Error fetching reviews:", error));
   }, [userId]);

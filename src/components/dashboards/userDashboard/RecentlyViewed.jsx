@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useUser } from "../../../provider/UserContext";
+import useAxios from "../../../hooks/useAxios";
 
 const RecentlyViewed = () => {
   const [recentProducts, setRecentProducts] = useState([]);
   const { user } = useUser();
   const userId = user?.id;
-
+  const axiosInstance = useAxios();
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`http://localhost:5000/api/recently-viewed?userId=${userId}`)
+      axiosInstance
+        .get(`/api/recently-viewed?userId=${userId}`)
         .then((response) => setRecentProducts(response?.data || []))
         .catch((error) =>
           console.error("Error fetching recently viewed products:", error)

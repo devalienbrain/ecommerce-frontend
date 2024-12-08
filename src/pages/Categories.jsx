@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Title from "../components/shared/Title";
+import useAxios from "../hooks/useAxios";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const axiosInstance = useAxios();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/categories"
+        const response = await axiosInstance.get(
+          "/api/categories"
         );
         setCategories(response.data);
         setLoading(false);

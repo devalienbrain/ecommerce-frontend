@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import useAxios from "../../hooks/useAxios";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -13,14 +13,12 @@ const AddProduct = () => {
     createdBy: 1, // Replace with actual user ID
   });
   const [loading, setLoading] = useState(false);
-
+  const axiosInstance = useAxios();
   // Fetch categories from the API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/categories"
-        );
+        const response = await axiosInstance.get("/api/categories");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -45,8 +43,8 @@ const AddProduct = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/products",
+      const response = await axiosInstance.post(
+        "/api/products",
         productData
       );
       console.log("Product added successfully:", response.data);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useUser } from "../../../provider/UserContext";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useAxios from "../../../hooks/useAxios";
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -10,11 +10,12 @@ const UserCart = () => {
   const [showModal, setShowModal] = useState(false);
   const { user } = useUser();
   const userId = user?.id;
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     if (userId) {
-      axios
-        .get(`http://localhost:5000/api/cart?userId=${userId}`)
+      axiosInstance
+        .get(`/api/cart?userId=${userId}`)
         .then((response) => setCartItems(response?.data || []))
         .catch((error) =>
           console.error("Error fetching cart items for user:", error)
@@ -24,8 +25,8 @@ const UserCart = () => {
 
   const handleRemove = () => {
     if (selectedItemId) {
-      axios
-        .delete(`http://localhost:5000/api/cart/${selectedItemId}`)
+      axiosInstance
+        .delete(`/api/cart/${selectedItemId}`)
         .then(() => {
           setCartItems((prevItems) =>
             prevItems.filter((item) => item?.id !== selectedItemId)

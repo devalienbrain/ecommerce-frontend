@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useUser } from "../provider/UserContext";
+import useAxios from "../hooks/useAxios";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useUser();
-
+  const axiosInstance = useAxios();
   useEffect(() => {
     if (!user?.id) return; // Prevent unnecessary API calls if user ID is unavailable
 
-    axios
-      .get(`http://localhost:5000/api/orders?userId=${user?.id}`)
+    axiosInstance
+      .get(`/api/orders?userId=${user?.id}`)
       .then((response) => setOrders(response?.data))
       .catch((error) => console.error("Error fetching orders:", error));
   }, [user?.id]);

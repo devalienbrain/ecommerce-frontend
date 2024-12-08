@@ -22,6 +22,7 @@ import Checkout from "./pages/payment/Checkout";
 import PaymentSuccessfull from "./pages/payment/PaymentSuccessfull";
 import PaymentFailed from "./pages/payment/paymentFailed";
 import PaymentCancelled from "./pages/payment/PaymentCancelled";
+import ManageInventoryByVendor from "./components/dashboards/ManageInventoryByVendor";
 
 function App() {
   return (
@@ -45,6 +46,10 @@ function App() {
             <Route path="manage-users" element={<ManageUsers />} />
             <Route path="manage-categories" element={<ManageCategories />} />
             <Route path="add-product" element={<AddProduct />} />
+            <Route
+              path="manage-inventory"
+              element={<ManageInventoryByVendor />}
+            />
             <Route path="my-shop" element={<VendorShop />} />
             <Route path="orders" element={<Orders />} />
             <Route path="cart" element={<UserCart />} />

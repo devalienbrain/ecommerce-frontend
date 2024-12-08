@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import axios from "axios";
 import Title from "../components/shared/Title";
+import useAxios from "../hooks/useAxios";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -11,19 +11,19 @@ const Products = () => {
   const [categories, setCategories] = useState([]); // New state for categories
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
-
+  const axiosInstance = useAxios();
   // Fetch all products and categories
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productResponse = await axios.get(
-          "http://localhost:5000/api/products"
+        const productResponse = await axiosInstance.get(
+          "/api/products"
         );
         setProducts(productResponse.data);
         setFilteredProducts(productResponse.data); // Initially show all products
 
-        const categoryResponse = await axios.get(
-          "http://localhost:5000/api/categories"
+        const categoryResponse = await axiosInstance.get(
+          "/api/categories"
         );
         setCategories(categoryResponse.data); // Fetch categories dynamically
       } catch (error) {

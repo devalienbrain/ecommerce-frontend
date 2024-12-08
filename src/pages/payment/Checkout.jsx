@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { useUser } from "../../provider/UserContext";
 import axios from "axios";
+import useAxios from "../../hooks/useAxios";
 
 const Checkout = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { user } = useUser();
+  const axiosInstance = useAxios();
 
   // State for form data and modal visibility
   const [formData, setFormData] = useState({
@@ -38,8 +40,8 @@ const Checkout = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/payment",
+      const response = await axiosInstance.post(
+        "/api/payment",
         payload
       );
       console.log("Payment Successful:", response.data);

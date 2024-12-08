@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
 import { useUser } from "../../provider/UserContext";
+import useAxios from "../../hooks/useAxios";
 
 const VendorShop = () => {
   const { user } = useUser();
@@ -11,7 +11,7 @@ const VendorShop = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
+  const axiosInstance = useAxios();
   const [name, setName] = useState("");
   const [logo, setLogo] = useState("");
   const [description, setDescription] = useState("");
@@ -23,7 +23,7 @@ const VendorShop = () => {
       if (!userId) return;
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/shop`, {
+        const response = await axiosInstance.get(`/api/shop`, {
           params: { userId },
         });
         setShops(Array.isArray(response?.data) ? response?.data : []);
@@ -45,10 +45,7 @@ const VendorShop = () => {
     const shopData = { name, logo, description, userId };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/shop",
-        shopData
-      );
+      const response = await axiosInstance.post("/api/shop", shopData);
       setShops((prev) => [...prev, response.data]);
       alert("Shop created successfully!");
       closeModals();
@@ -68,8 +65,8 @@ const VendorShop = () => {
     const shopData = { name, logo, description };
 
     try {
-      const response = await axios.patch(
-        `http://localhost:5000/api/shop/${selectedShop.id}`,
+      const response = await axiosInstance.patch(
+        `/api/shop/${selectedShop.id}`,
         shopData
       );
       setShops((prev) =>
@@ -86,7 +83,7 @@ const VendorShop = () => {
   // Handle Delete Shop
   const handleDeleteShop = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/shop/${selectedShop.id}`);
+      await axiosInstance.delete(`/api/shop/${selectedShop.id}`);
       setShops((prev) => prev.filter((shop) => shop.id !== selectedShop.id));
       alert("Shop deleted successfully!");
       closeModals();

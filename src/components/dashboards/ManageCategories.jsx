@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons
+import useAxios from "../../hooks/useAxios";
 
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -8,12 +8,12 @@ const ManageCategories = () => {
   const [newCategory, setNewCategory] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingName, setEditingName] = useState("");
-
+  const axiosInstance = useAxios();
   // Fetch categories from the API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/categories");
+        const response = await axiosInstance.get("/api/categories");
         setCategories(response?.data);
         setLoading(false);
       } catch (error) {
@@ -29,7 +29,7 @@ const ManageCategories = () => {
   const handleAddCategory = async () => {
     if (!newCategory.trim()) return alert("Category name cannot be empty");
     try {
-      const response = await axios.post("http://localhost:5000/api/categories", {
+      const response = await axiosInstance.post("/api/categories", {
         name: newCategory,
       });
       setCategories((prev) => [...prev, response.data]);
@@ -42,7 +42,7 @@ const ManageCategories = () => {
   // Delete a category
   const handleDeleteCategory = async (categoryId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/categories/${categoryId}`);
+      await axiosInstance.delete(`/api/categories/${categoryId}`);
       setCategories((prev) => prev.filter((cat) => cat.id !== categoryId));
     } catch (error) {
       console.error("Error deleting category:", error);
@@ -59,7 +59,7 @@ const ManageCategories = () => {
   const handleSaveEdit = async () => {
     if (!editingName.trim()) return alert("Category name cannot be empty");
     try {
-      await axios.patch(`http://localhost:5000/api/categories/${editingCategory}`, {
+      await axiosInstance.patch(`/api/categories/${editingCategory}`, {
         name: editingName,
       });
       setCategories((prev) =>

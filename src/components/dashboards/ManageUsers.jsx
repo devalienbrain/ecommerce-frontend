@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FaPause, FaTrash } from "react-icons/fa"; // Import React Icons
+import useAxios from "../../hooks/useAxios";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -8,12 +8,12 @@ const ManageUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [actionType, setActionType] = useState(""); // "suspend" or "delete"
-
+  const axiosInstance = useAxios();
   // Fetch all users from the API
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axiosInstance.get("/api/users");
         setUsers(response.data);
         setLoading(false);
       } catch (error) {
@@ -43,8 +43,8 @@ const ManageUsers = () => {
   const executeAction = async () => {
     try {
       if (actionType === "suspend") {
-        await axios.patch(
-          `http://localhost:5000/api/users/${currentUserId}/suspend`
+        await axiosInstance.patch(
+          `/api/users/${currentUserId}/suspend`
         );
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
@@ -52,7 +52,7 @@ const ManageUsers = () => {
           )
         );
       } else if (actionType === "delete") {
-        await axios.delete(`http://localhost:5000/api/users/${currentUserId}`);
+        await axiosInstance.delete(`/api/users/${currentUserId}`);
         setUsers((prevUsers) =>
           prevUsers.filter((user) => user.id !== currentUserId)
         );

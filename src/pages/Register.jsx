@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useAxios from "../hooks/useAxios";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
   const navigate = useNavigate();
-
+  const axiosInstance = useAxios();
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axiosInstance.post("/api/auth/register", {
         email,
         password,
         role,

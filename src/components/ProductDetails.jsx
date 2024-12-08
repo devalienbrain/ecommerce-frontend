@@ -5,13 +5,14 @@ import { useUser } from "../provider/UserContext";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { FaExclamationCircle } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import useAxios from "../hooks/useAxios";
 
 const ProductDetails = () => {
   const { productId } = useParams(); // Get product ID from URL
   const navigate = useNavigate();
   const { user } = useUser();
   const userId = user?.id;
-
+  const axiosInstance = useAxios();
   const [product, setProduct] = useState(null);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -22,8 +23,8 @@ const ProductDetails = () => {
 
   // Fetch product details when the component mounts
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/${productId}`)
+    axiosInstance
+      .get(`/api/products/${productId}`)
       .then((response) => {
         setProduct(response?.data);
       })
@@ -33,8 +34,8 @@ const ProductDetails = () => {
 
     if (userId) {
       // Fetch cart items for the user
-      axios
-        .get(`http://localhost:5000/api/cart?userId=${userId}`)
+      axiosInstance
+        .get(`/api/cart?userId=${userId}`)
         .then((response) => setCartItems(response?.data))
         .catch((error) => console.error("Error fetching cart items:", error));
     }
@@ -49,8 +50,8 @@ const ProductDetails = () => {
     }
 
     // Add product to cart
-    axios
-      .post("http://localhost:5000/api/cart", {
+    axiosInstance
+      .post("/api/cart", {
         userId,
         productId: product?.id,
         quantity: 1,
@@ -76,8 +77,8 @@ const ProductDetails = () => {
     }
 
     // Add review for the product
-    axios
-      .post("http://localhost:5000/api/reviews", {
+    axiosInstance
+      .post("/api/reviews", {
         userId,
         productId: product?.id,
         rating,

@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Title from "../components/shared/Title";
+import useAxios from "../hooks/useAxios";
 
 const AllProductsCategoryFiltered = () => {
   const { categoryId } = useParams();
@@ -12,19 +13,20 @@ const AllProductsCategoryFiltered = () => {
     location.state?.categoryName || ""
   );
   const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/products?category=${categoryId}`
+        const response = await axiosInstance.get(
+          `/api/products?category=${categoryId}`
         );
         setProducts(response.data);
 
         // Only fetch category name if not provided via navigation state
         if (!categoryName) {
-          const categoryResponse = await axios.get(
-            `http://localhost:5000/api/categories/${categoryId}`
+          const categoryResponse = await axiosInstance.get(
+            `/api/categories/${categoryId}`
           );
           setCategoryName(categoryResponse.data.name);
         }
@@ -51,7 +53,7 @@ const AllProductsCategoryFiltered = () => {
     <div className="px-6 py-4 w-full lg:w-3/4 mx-auto my-6 min-h-screen">
       <Title title={`Products in ${categoryName}`} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((product) => (
+        {products?.map((product) => (
           <ProductCard
             key={product.id}
             product={product}

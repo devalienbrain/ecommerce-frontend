@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode"; // Ensure correct import
 import { useUser } from "../provider/UserContext";
+import useAxios from "../hooks/useAxios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,27 +10,24 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(""); // For displaying errors
   const navigate = useNavigate();
   const { login } = useUser();
-
+  const axiosInstance = useAxios();
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage(""); // Clear error message before submission
 
     try {
       // API call for login
-      const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await axiosInstance.post("/api/auth/login", {
+        email,
+        password,
+      });
 
       const token = data.token;
       const decoded = jwtDecode(token); // Decode token to get user ID
 
       // Fetch user details using the decoded ID
-      const userResponse = await axios.get(
-        `http://localhost:5000/api/users/${decoded.id}`,
+      const userResponse = await axiosInstance.get(
+        `/api/users/${decoded.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in the request
