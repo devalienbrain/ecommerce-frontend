@@ -30,14 +30,17 @@ const DashboardSidebar = () => {
             <FaUser className="mr-2" /> Profile
           </Link>
         </li>
-        <li>
-          <Link
-            to="/dashboard/orders"
-            className="flex items-center text-gray-600 hover:text-blue-500 hover:underline"
-          >
-            <FaBoxOpen className="mr-2" /> Orders
-          </Link>
-        </li>
+        {user?.role !== "admin" && (
+          <li>
+            <Link
+              to="/dashboard/orders"
+              className="flex items-center text-gray-600 hover:text-blue-500 hover:underline"
+            >
+              <FaBoxOpen className="mr-2" />
+              Orders
+            </Link>
+          </li>
+        )}
 
         {user?.role === "admin" && (
           <>
