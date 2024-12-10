@@ -16,7 +16,7 @@ const MonitorTransactions = () => {
         console.error("Error fetching transaction history:", error)
       );
   }, []);
-
+  console.log(transactions);
   useEffect(() => {
     // Filter transactions based on the search term
     if (searchTerm) {
@@ -58,10 +58,10 @@ const MonitorTransactions = () => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                  User
+                  #
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                  Product
+                  User ID
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
                   Amount Paid
@@ -72,22 +72,25 @@ const MonitorTransactions = () => {
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
                   Status
                 </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  Transaction ID
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction.id} className="border-t hover:bg-gray-50">
+              {filteredTransactions?.map((transaction, index) => (
+                <tr key={transaction?.id} className="border-t hover:bg-gray-50">
                   <td className="px-6 py-3 text-sm text-gray-700">
-                    {transaction.user?.name || "N/A"}
+                    {index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm text-gray-700">
-                    {transaction.product?.name || "N/A"}
+                    {transaction?.userId || "N/A"}
                   </td>
                   <td className="px-6 py-3 text-sm text-gray-700">
-                    ${transaction.amountPaid?.toFixed(2) || "0.00"}
+                    ${transaction.totalPrice?.toFixed(2) || "0.00"}
                   </td>
                   <td className="px-6 py-3 text-sm text-gray-700">
-                    {new Date(transaction.date).toLocaleDateString()}
+                    {new Date(transaction.createdAt).toLocaleDateString()}
                   </td>
                   <td
                     className={`px-6 py-3 text-sm font-medium ${
@@ -99,6 +102,9 @@ const MonitorTransactions = () => {
                     }`}
                   >
                     {transaction.status}
+                  </td>
+                  <td className="px-6 py-3 text-sm text-gray-700">
+                    {transaction?.id || "N/A"}
                   </td>
                 </tr>
               ))}
